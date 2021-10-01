@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-const HomeScreen = ({ navigation }) => {
+const SearchScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home!</Text>
+      <Text>Search!</Text>
     </View>
   );
 };
 
-export default HomeScreen;
+export default SearchScreen;

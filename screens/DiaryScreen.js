@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-const HomeScreen = ({ navigation }) => {
+const DiaryScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home!</Text>
+      <Text>Diary!</Text>
     </View>
   );
 };
 
-export default HomeScreen;
+export default DiaryScreen;
