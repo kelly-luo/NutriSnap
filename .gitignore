@@ -1,5 +1,22 @@
 # https://github.com/facebook/react-native/blob/main/.gitignore
 
+# expo
+__generated__
+node_modules/
+.expo
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
+
+
 # Xcode
 !**/*.xcodeproj
 !**/*.pbxproj
@@ -114,8 +131,3 @@ package-lock.json
 
 # Android memory profiler files
 *.hprof
-
-# Expo
-.expo
-__generated__
-web-build
