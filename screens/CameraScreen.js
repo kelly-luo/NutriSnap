@@ -1,20 +1,3 @@
-// import React from "react";
-// import { View, Text } from "react-native";
-// import { SafeAreaView } from "react-native-safe-area-context";
-
-// const CameraScreen = ({ navigation }) => {
-//   return (
-//     // <View>
-//     //   <SafeAreaView>
-//     //     <Button title="Close" onPress={() => navigation.goBack()} />
-//     //   </SafeAreaView>
-//     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-//       <Text>Camera!</Text>
-//     </View>
-//     // </View>
-//   );
-// };
-
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
@@ -50,8 +33,19 @@ const CameraScreen = ({ navigation }) => {
                   : Camera.Constants.Type.back
               );
             }}>
-            <Text style={styles.text}> Flip </Text>
-            <MaterialCommunityIcons name="access-point" size={24} color="black" />
+            <MaterialCommunityIcons name="camera-retake-outline" size={30} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.cameraCapture} />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              setType(
+                type === Camera.Constants.Type.back
+                  ? Camera.Constants.Type.front
+                  : Camera.Constants.Type.back
+              );
+            }}>
+            <MaterialCommunityIcons name="magnify" size={30} color="white" />
           </TouchableOpacity>
         </View>
       </Camera>
@@ -70,17 +64,28 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'transparent',
     flexDirection: 'row',
-    margin: 20,
+    justifyContent: 'center',
+    margin: 15,
   },
   button: {
-    flex: 0.1,
+    flex: 0.3,
     alignSelf: 'flex-end',
     alignItems: 'center',
+    marginBottom: 15,
   },
   text: {
     fontSize: 18,
     color: 'white',
   },
+  cameraCapture: {
+    width: 60,
+    height: 60,
+    backgroundColor: '#FFF',
+    borderRadius: 60,
+    alignSelf: 'flex-end',
+    borderColor: '#C0C0C0',
+    borderWidth: 3,
+  }
 });
 
 export default CameraScreen;
