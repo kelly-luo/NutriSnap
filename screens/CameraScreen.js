@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const CameraScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [imageUri, setImageUri] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -20,35 +21,39 @@ const CameraScreen = ({ navigation }) => {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+
+  const takePicture = async () => {
+    if (this.camera) {
+      const options = { quality: 1, base64: true };
+      const data = await this.camera.takePictureAsync(options);
+      console.log(data.uri);
+      setImageUri(data.uri);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <MaterialCommunityIcons name="camera-retake-outline" size={30} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.cameraCapture} />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <MaterialCommunityIcons name="magnify" size={30} color="white" />
-          </TouchableOpacity>
-        </View>
-      </Camera>
+      {imageUri ? (imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />) :
+        <Camera style={styles.camera} ref={(ref) => { camera = ref }} type={type} >
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}>
+              <MaterialCommunityIcons name="camera-retake-outline" size={30} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cameraCapture} onPress={() => takePicture()} />
+            <TouchableOpacity
+              style={styles.button}>
+              <MaterialCommunityIcons name="magnify" size={30} color="white" />
+            </TouchableOpacity>
+          </View>
+        </Camera>}
     </View>
   );
 }
