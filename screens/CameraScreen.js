@@ -15,7 +15,14 @@ const CameraScreen = ({ navigation }) => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
-  }, []);
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      setImageUri(null);
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   if (hasPermission === null) {
     return <View />;
