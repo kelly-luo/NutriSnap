@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useIsFocused } from '@react-navigation/native';
 
 const CameraScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [imageUri, setImageUri] = useState(null);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     (async () => {
@@ -34,7 +36,7 @@ const CameraScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {imageUri ? (imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />) :
-        <Camera style={styles.camera} ref={(ref) => { camera = ref }} type={type} >
+        isFocused && (<Camera style={styles.camera} ref={(ref) => { camera = ref }} type={type} >
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.button}
@@ -53,7 +55,7 @@ const CameraScreen = ({ navigation }) => {
               <MaterialCommunityIcons name="magnify" size={30} color="white" />
             </TouchableOpacity>
           </View>
-        </Camera>}
+        </Camera>)}
     </View>
   );
 }
