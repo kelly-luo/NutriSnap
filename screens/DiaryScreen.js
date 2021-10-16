@@ -20,9 +20,9 @@ export default DiaryScreen = ({ navigation }) => {
           bottom: 0,
           right: 30,
         }}>
-        <FoodCard image={images.coffee} timeConsumed={"1:12pm"} />
-        <FoodCard image={images.pizza} timeConsumed={"12:48pm"} />
-        <FoodCard image={images.apple} timeConsumed={"9:00am"} />
+        <FoodCard image={images.coffee} timeConsumed={"1:12pm"} navigation={navigation} />
+        <FoodCard image={images.pizza} timeConsumed={"12:48pm"} navigation={navigation} />
+        <FoodCard image={images.apple} timeConsumed={"9:00am"} navigation={navigation} />
       </ScrollView >
     </View>
   );

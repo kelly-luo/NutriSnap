@@ -6,7 +6,10 @@ export const FoodCard = (props) => {
     return (
         <View>
             <View style={styles.view}>
-                <TouchableOpacity >
+                <TouchableOpacity onPress={() => props.navigation.navigate("Nutrition", {
+                    // item,
+                    // currentLocation
+                })}>
                     <Image
                         source={props.image}
                         resizeMode="cover"

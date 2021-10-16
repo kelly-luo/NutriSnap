@@ -6,9 +6,9 @@ import { useFonts } from 'expo-font';
 
 import HomeScreen from "./screens/HomeScreen";
 import CameraScreen from "./screens/CameraScreen";
-import DiaryScreen from "./screens/DiaryScreen";
 import SearchScreen from "./screens/SearchScreen";
 
+import NutritionStack from "./navigation/nutritionTabs"
 const Tab = createBottomTabNavigator();
 
 const App = () => {
@@ -24,7 +24,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator initialRouteName={'Home'}>
         <Tab.Screen
           name="Home"
           component={HomeScreen}
@@ -47,8 +47,9 @@ const App = () => {
         />
         <Tab.Screen
           name="Diary"
-          component={DiaryScreen}
+          component={NutritionStack}
           options={{
+            headerShown: false,
             tabBarLabel: "Diary",
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
@@ -56,7 +57,7 @@ const App = () => {
                 color={color}
                 size={size}
               />
-            ),
+            )
           }}
         />
         <Tab.Screen
