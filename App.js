@@ -2,6 +2,7 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useFonts } from 'expo-font';
 
 import HomeScreen from "./screens/HomeScreen";
 import CameraScreen from "./screens/CameraScreen";
@@ -10,7 +11,17 @@ import SearchScreen from "./screens/SearchScreen";
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+const App = () => {
+  const [loaded] = useFonts({
+    "Roboto-Black": require('./assets/fonts/Roboto-Black.ttf'),
+    "Roboto-Bold": require('./assets/fonts/Roboto-Bold.ttf'),
+    "Roboto-Regular": require('./assets/fonts/Roboto-Regular.ttf'),
+  })
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
       <Tab.Navigator>
@@ -67,25 +78,4 @@ export default function App() {
   );
 }
 
-// import { StatusBar } from "expo-status-bar";
-// import React from "react";
-// import { StyleSheet, Text, View } from "react-native";
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//       <Text>NutriSnap Test</Text>
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });
+export default App;
