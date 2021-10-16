@@ -1,14 +1,22 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { SIZES } from '../constants'
 
 export const FoodCard = (props) => {
+    const [timeConsumed, setTimeConsumed] = useState();
+    const [foodImage, setFoodImage] = useState();
+
+    useEffect(() => {
+        setTimeConsumed(props.timeConsumed)
+        setFoodImage(props.image)
+    });
+
     return (
         <View>
             <View style={styles.view}>
                 <TouchableOpacity onPress={() => props.navigation.navigate("Nutrition", {
-                    // item,
-                    // currentLocation
+                    timeConsumed,
+                    foodImage
                 })}>
                     <Image
                         source={props.image}
