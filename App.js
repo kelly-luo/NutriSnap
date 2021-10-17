@@ -46,7 +46,7 @@ const App = () => {
           }}
         />
         <Tab.Screen
-          name="Overview"
+          name="NutritionMain"
           component={NutritionStack}
           options={{
             headerShown: false,
