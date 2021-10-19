@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-    SafeAreaView,
     StyleSheet,
     ScrollView,
     View,
     Text,
-    StatusBar,
     Image,
-    ImageBackground,
     TouchableOpacity,
     FlatList,
     Animated,
@@ -17,7 +14,7 @@ import { VictoryPie } from 'victory-native';
 
 import { Svg } from 'react-native-svg';
 
-import { COLORS, FONTS, SIZES, icons, images } from '../constants';
+import { COLORS, FONTS, SIZES } from '../constants';
 
 
 const NutritionScreen = ({ route, navigation }) => {
@@ -40,7 +37,6 @@ const NutritionScreen = ({ route, navigation }) => {
         {
             id: 1,
             name: "Total Fat",
-            icon: icons.education,
             color: COLORS.yellow,
             expenses: [
                 {
@@ -56,7 +52,6 @@ const NutritionScreen = ({ route, navigation }) => {
         {
             id: 2,
             name: "Sodium",
-            icon: icons.food,
             color: COLORS.lightBlue,
             expenses: [
                 {
@@ -73,7 +68,6 @@ const NutritionScreen = ({ route, navigation }) => {
         {
             id: 3,
             name: "Potassium",
-            icon: icons.baby_car,
             color: COLORS.darkgreen,
             expenses: [
                 {
@@ -113,7 +107,6 @@ const NutritionScreen = ({ route, navigation }) => {
         {
             id: 4,
             name: "Carbohydrate",
-            icon: icons.healthcare,
             color: COLORS.peach,
             expenses: [
                 {
@@ -137,7 +130,6 @@ const NutritionScreen = ({ route, navigation }) => {
         {
             id: 5,
             name: "Protein",
-            icon: icons.sports_icon,
             color: COLORS.purple,
             expenses: [
                 {
@@ -161,7 +153,6 @@ const NutritionScreen = ({ route, navigation }) => {
         {
             id: 6,
             name: "Vitamin C",
-            icon: icons.cloth_icon,
             color: COLORS.red,
             expenses: [
                 {
@@ -185,7 +176,6 @@ const NutritionScreen = ({ route, navigation }) => {
         {
             id: 7,
             name: "Vitamin B6",
-            icon: icons.cloth_icon,
             color: COLORS.gray,
             expenses: [
                 {
@@ -206,145 +196,6 @@ const NutritionScreen = ({ route, navigation }) => {
     const [viewMode, setViewMode] = React.useState("chart")
     const [selectedCategory, setSelectedCategory] = React.useState(null)
     const [showMoreToggle, setShowMoreToggle] = React.useState(false)
-
-    function renderNavBar() {
-        return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    height: 80,
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-end',
-                    paddingHorizontal: SIZES.padding,
-                    backgroundColor: COLORS.white,
-                }}
-            >
-                <TouchableOpacity
-                    style={{ justifyContent: 'center', width: 50, }}
-                    onPress={() => console.log('Go Back')}
-                >
-                    <Image
-                        source={icons.back_arrow}
-                        style={{
-                            width: 30,
-                            height: 30,
-                            tintColor: COLORS.primary
-                        }}
-                    />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={{ justifyContent: 'center', alignItems: 'flex-end', width: 50 }}
-                    onPress={() => console.log('More')}
-                >
-                    <Image
-                        source={icons.more}
-                        style={{
-                            width: 30,
-                            height: 30,
-                            tintColor: COLORS.primary
-                        }}
-                    />
-                </TouchableOpacity>
-            </View>
-        )
-    }
-
-    function renderHeader() {
-        return (
-            <View style={{ paddingHorizontal: SIZES.padding, paddingVertical: SIZES.padding, backgroundColor: COLORS.white }}>
-                <View>
-                    <Text style={{ color: COLORS.primary, ...FONTS.h2 }}>My Expenses</Text>
-                    <Text style={{ ...FONTS.h3, color: COLORS.darkgray }}>Summary (private)</Text>
-                </View>
-
-                <View style={{ flexDirection: 'row', marginTop: SIZES.padding, alignItems: 'center' }}>
-                    <View style={{
-                        backgroundColor: COLORS.lightGray,
-                        height: 50,
-                        width: 50,
-                        borderRadius: 25,
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
-                        <Image
-                            source={icons.calendar}
-                            style={{
-                                width: 20,
-                                height: 20,
-                                tintColor: COLORS.lightBlue
-                            }}
-                        />
-                    </View>
-
-                    <View style={{ marginLeft: SIZES.padding }}>
-                        <Text style={{ color: COLORS.primary, ...FONTS.h3 }}>11 Nov, 2020</Text>
-                        <Text style={{ ...FONTS.body3, color: COLORS.darkgray }}>18% more than last month</Text>
-                    </View>
-                </View>
-            </View>
-        )
-    }
-
-    function renderCategoryHeaderSection() {
-        return (
-            <View style={{ flexDirection: 'row', padding: SIZES.padding, justifyContent: 'space-between', alignItems: 'center' }}>
-                {/* Title */}
-                <View>
-                    <Text style={{ color: COLORS.primary, ...FONTS.h3 }}>CATEGORIES</Text>
-                    <Text style={{ color: COLORS.darkgray, ...FONTS.body4 }}>{categories.length} Total</Text>
-                </View>
-
-                {/* Button */}
-                <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity
-                        style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: viewMode == "chart" ? COLORS.secondary : null,
-                            height: 50,
-                            width: 50,
-                            borderRadius: 25
-                        }}
-                        onPress={() => setViewMode("chart")}
-                    >
-                        <Image
-                            source={icons.chart}
-                            resizeMode="contain"
-                            style={{
-                                width: 20,
-                                height: 20,
-                                tintColor: viewMode == "chart" ? COLORS.white : COLORS.darkgray,
-                            }}
-                        />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: viewMode == "list" ? COLORS.secondary : null,
-                            height: 50,
-                            width: 50,
-                            borderRadius: 25,
-                            marginLeft: SIZES.base
-                        }}
-                        onPress={() => setViewMode("list")}
-                    >
-                        <Image
-                            source={icons.menu}
-                            resizeMode="contain"
-                            style={{
-                                width: 20,
-                                height: 20,
-                                tintColor: viewMode == "list" ? COLORS.white : COLORS.darkgray,
-                            }}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </View>
-        )
-    }
 
     function renderCategoryList() {
         const renderItem = ({ item }) => (
@@ -583,8 +434,8 @@ const NutritionScreen = ({ route, navigation }) => {
         let colorScales = chartData.map((item) => item.color)
         let totalExpenseCount = chartData.reduce((a, b) => a + (b.expenseCount || 0), 0)
 
-        console.log("Check Chart")
-        console.log(chartData)
+        // console.log("Check Chart")
+        // console.log(chartData)
 
         if (Platform.OS == 'ios') {
             return (
@@ -732,15 +583,6 @@ const NutritionScreen = ({ route, navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.lightGray2 }}>
-            {/* Nav bar section */}
-            {/* {renderNavBar()} */}
-
-            {/* Header section */}
-            {/* {renderHeader()} */}
-
-            {/* Category Header Section */}
-            {/* {renderCategoryHeaderSection()} */}
-
             <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
                 <View style={{ height: SIZES.height * 0.35 }}>
                     <Image
