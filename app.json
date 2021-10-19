@@ -15,6 +15,7 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
+      "assets/**/*",
       "assets/*"
     ],
     "ios": {
