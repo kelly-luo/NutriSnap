@@ -9,11 +9,15 @@ import { MediaLibrary } from 'expo-media-library';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 
+import { NutritionLabel } from '../components/NutritionLabel';
+
 const CameraScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [imageUri, setImageUri] = useState("");
   const isFocused = useIsFocused();
+
+  const [isLoading, seIsLoading] = React.useState(true);
 
   var FormData = require('form-data');
 
@@ -23,13 +27,19 @@ const CameraScreen = ({ navigation }) => {
       setHasPermission(status === 'granted');
     })();
 
+    const timeout = setTimeout(() => {
+      seIsLoading(false);
+    }, 3000);
+
     const unsubscribe = navigation.addListener('focus', () => {
-      // console.log(imageUri);
       setImageUri(null);
     });
 
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
+    return () => {
+      clearTimeout(timeout);
+      // Return the function to unsubscribe from the event so it gets removed on unmount
+      return unsubscribe;
+    };
   }, [navigation]);
 
   if (hasPermission === null) {
@@ -122,8 +132,15 @@ const CameraScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {imageUri ? (imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />) :
+      {/* Display image if it is taken*/}
+      {imageUri ? (imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />)
+        :
+        // Camera screen is in focus then show camera
         isFocused && (<Camera style={styles.camera} ref={(ref) => { camera = ref }} type={type} >
+          {isLoading ? (null) : (
+            <View>
+              <NutritionLabel labelText="Test" />
+            </View>)}
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.button}
