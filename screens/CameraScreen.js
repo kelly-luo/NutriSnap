@@ -45,7 +45,7 @@ const CameraScreen = ({ navigation }) => {
       const data = await this.camera.takePictureAsync(options);
       //await MediaLibrary.saveToLibraryAsync(data.uri)
       console.log(data.uri);
-      this.setImageUri({ imageUri: data.uri }, () => { console.log(imageUri); });
+      setImageUri(data.uri);
 
       //await postLogMealReq(data.uri);
       //await compressCapturedImage();

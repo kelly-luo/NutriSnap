@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { FoodCard } from '../components/FoodCard';
 import { images, SIZES } from '../constants'
 

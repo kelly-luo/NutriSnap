@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     ScrollView,
@@ -7,11 +7,9 @@ import {
     Image,
     TouchableOpacity,
     FlatList,
-    Animated,
     Platform
 } from 'react-native';
 import { VictoryPie } from 'victory-native';
-
 import { Svg } from 'react-native-svg';
 
 import { COLORS, FONTS, SIZES } from '../constants';
@@ -190,201 +188,8 @@ const NutritionScreen = ({ route, navigation }) => {
         }
     ]
 
-    const categoryListHeightAnimationValue = useRef(new Animated.Value(115)).current;
-
     const [categories, setCategories] = React.useState(categoriesData)
-    const [viewMode, setViewMode] = React.useState("chart")
     const [selectedCategory, setSelectedCategory] = React.useState(null)
-    const [showMoreToggle, setShowMoreToggle] = React.useState(false)
-
-    function renderCategoryList() {
-        const renderItem = ({ item }) => (
-            <TouchableOpacity
-                onPress={() => setSelectedCategory(item)}
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    margin: 5,
-                    paddingVertical: SIZES.radius,
-                    paddingHorizontal: SIZES.padding,
-                    borderRadius: 5,
-                    backgroundColor: COLORS.white,
-                    ...styles.shadow
-                }}
-            >
-                <Image
-                    source={item.icon}
-                    style={{
-                        width: 20,
-                        height: 20,
-                        tintColor: item.color
-                    }}
-                />
-                <Text style={{ marginLeft: SIZES.base, color: COLORS.primary, ...FONTS.h4 }}>{item.name}</Text>
-            </TouchableOpacity>
-        )
-
-        return (
-            <View style={{ paddingHorizontal: SIZES.padding - 5 }}>
-                <Animated.View style={{ height: categoryListHeightAnimationValue }}>
-                    <FlatList
-                        data={categories}
-                        renderItem={renderItem}
-                        keyExtractor={item => `${item.id}`}
-                        numColumns={2}
-                    />
-                </Animated.View>
-
-                <TouchableOpacity
-                    style={{
-                        flexDirection: 'row',
-                        marginVertical: SIZES.base,
-                        justifyContent: 'center'
-                    }}
-                    onPress={() => {
-                        if (showMoreToggle) {
-                            Animated.timing(categoryListHeightAnimationValue, {
-                                toValue: 115,
-                                duration: 500,
-                                useNativeDriver: false
-                            }).start()
-                        } else {
-                            Animated.timing(categoryListHeightAnimationValue, {
-                                toValue: 172.5,
-                                duration: 500,
-                                useNativeDriver: false
-                            }).start()
-                        }
-
-                        setShowMoreToggle(!showMoreToggle)
-                    }}
-                >
-                    <Text style={{ ...FONTS.body4 }}>{showMoreToggle ? "LESS" : "MORE"}</Text>
-                    <Image
-                        source={showMoreToggle ? icons.up_arrow : icons.down_arrow}
-                        style={{ marginLeft: 5, width: 15, height: 15, alignSelf: 'center' }}
-                    />
-                </TouchableOpacity>
-            </View>
-        )
-    }
-
-    function renderIncomingExpensesTitle() {
-        return (
-            <View style={{ height: 80, backgroundColor: COLORS.lightGray2, padding: SIZES.padding }}>
-                {/* Title */}
-                <Text style={{ ...FONTS.h3, color: COLORS.primary }}>INCOMING EXPENSES</Text>
-                <Text style={{ ...FONTS.body4, color: COLORS.darkgray }}>12 Total</Text>
-            </View>
-        )
-    }
-
-    function renderIncomingExpenses() {
-        let allExpenses = selectedCategory ? selectedCategory.expenses : []
-        let incomingExpenses = allExpenses.filter(a => a.status == "P")
-
-        const renderItem = ({ item, index }) => (
-            <View style={{
-                width: 300,
-                marginRight: SIZES.padding,
-                marginLeft: index == 0 ? SIZES.padding : 0,
-                marginVertical: SIZES.radius,
-                borderRadius: SIZES.radius,
-                backgroundColor: COLORS.white,
-                ...styles.shadow
-            }}>
-                {/* Title */}
-                <View style={{ flexDirection: 'row', padding: SIZES.padding, alignItems: 'center' }}>
-                    <View
-                        style={{
-                            height: 50,
-                            width: 50,
-                            borderRadius: 25,
-                            backgroundColor: COLORS.lightGray,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginRight: SIZES.base
-                        }}
-                    >
-                        <Image
-                            source={selectedCategory.icon}
-                            style={{
-                                width: 30,
-                                height: 30,
-                                tintColor: selectedCategory.color
-                            }}
-                        />
-                    </View>
-
-                    <Text style={{ ...FONTS.h3, color: selectedCategory.color, }}>{selectedCategory.name}</Text>
-                </View>
-
-                {/* Expense Description */}
-                <View style={{ paddingHorizontal: SIZES.padding }}>
-                    {/* Title and description */}
-                    <Text style={{ ...FONTS.h2, }}>{item.title}</Text>
-                    <Text style={{ ...FONTS.body3, flexWrap: 'wrap', color: COLORS.darkgray }}>
-                        {item.description}
-                    </Text>
-
-                    {/* Location */}
-                    <Text style={{ marginTop: SIZES.padding, ...FONTS.h4, }}>Location</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Image
-                            source={icons.pin}
-                            style={{
-                                width: 20,
-                                height: 20,
-                                tintColor: COLORS.darkgray,
-                                marginRight: 5
-                            }}
-                        />
-                        <Text style={{ marginBottom: SIZES.base, color: COLORS.darkgray, ...FONTS.body4 }}>{item.location}</Text>
-                    </View>
-                </View>
-
-                {/* Price */}
-                <View
-                    style={{
-                        height: 50,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderBottomStartRadius: SIZES.radius,
-                        borderBottomEndRadius: SIZES.radius,
-                        backgroundColor: selectedCategory.color,
-                    }}
-                >
-                    <Text style={{ color: COLORS.white, ...FONTS.body3 }}>CONFIRM {item.total.toFixed(2)} USD</Text>
-                </View>
-            </View>
-        )
-
-        return (
-            <View>
-                {renderIncomingExpensesTitle()}
-
-                {
-                    incomingExpenses.length > 0 &&
-                    <FlatList
-                        data={incomingExpenses}
-                        renderItem={renderItem}
-                        keyExtractor={item => `${item.id}`}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    />
-                }
-
-                {
-                    incomingExpenses.length == 0 &&
-                    <View style={{ alignItems: 'center', justifyContent: 'center', height: 300 }}>
-                        <Text style={{ color: COLORS.primary, ...FONTS.h3 }}>No Record</Text>
-                    </View>
-                }
-
-            </View>
-
-        )
-    }
 
     function processCategoryDataToDisplay() {
         // Filter expenses with "Confirmed" status
@@ -521,7 +326,6 @@ const NutritionScreen = ({ route, navigation }) => {
                         />
                     </Svg>
                     <View style={{ position: 'absolute', top: '42%', left: "42%" }}>
-                        {/* <Text style={{ ...FONTS.h1, textAlign: 'center' }}>{totalExpenseCount}</Text> */}
                         <Text style={{ ...FONTS.h1, textAlign: 'center' }}>95</Text>
                         <Text style={{ ...FONTS.body3, textAlign: 'center' }}>Calories</Text>
                     </View>
@@ -531,7 +335,7 @@ const NutritionScreen = ({ route, navigation }) => {
 
     }
 
-    function renderExpenseSummary() {
+    function renderNutritionSummary() {
         let data = processCategoryDataToDisplay()
 
         const renderItem = ({ item }) => (
@@ -548,7 +352,7 @@ const NutritionScreen = ({ route, navigation }) => {
                     setSelectCategoryByName(categoryName)
                 }}
             >
-                {/* Name/Category */}
+                {/* Nutrition Category */}
                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                     <View
                         style={{
@@ -562,7 +366,7 @@ const NutritionScreen = ({ route, navigation }) => {
                     <Text style={{ marginLeft: SIZES.base, color: (selectedCategory && selectedCategory.name == item.name) ? COLORS.white : COLORS.primary, ...FONTS.h3 }}>{item.name}</Text>
                 </View>
 
-                {/* Expenses */}
+                {/* Grams */}
                 <View style={{ justifyContent: 'center' }}>
                     <Text style={{ color: (selectedCategory && selectedCategory.name == item.name) ? COLORS.white : COLORS.primary, ...FONTS.h3 }}>{item.y} g - {item.label}</Text>
                 </View>
@@ -594,20 +398,10 @@ const NutritionScreen = ({ route, navigation }) => {
                         }}
                     />
                 </View>
-                {
-                    viewMode == "list" &&
-                    <View>
-                        {renderCategoryList()}
-                        {renderIncomingExpenses()}
-                    </View>
-                }
-                {
-                    viewMode == "chart" &&
-                    <View>
-                        {renderChart()}
-                        {renderExpenseSummary()}
-                    </View>
-                }
+                <View>
+                    {renderChart()}
+                    {renderNutritionSummary()}
+                </View>
             </ScrollView>
         </View>
     )
