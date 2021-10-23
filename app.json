@@ -19,6 +19,7 @@
       "assets/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.nutrisnap",
       "supportsTablet": true
     },
     "android": {
