@@ -10,6 +10,7 @@ import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 
 import { NutritionLabel } from '../components/NutritionLabel';
+import { SIZES } from '../constants';
 
 const CameraScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -136,30 +137,35 @@ const CameraScreen = ({ navigation }) => {
       {imageUri ? (imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />)
         :
         // Camera screen is in focus then show camera
-        isFocused && (<Camera style={styles.camera} ref={(ref) => { camera = ref }} type={type} >
-          {isLoading ? (null) : (
-            <View>
-              <NutritionLabel labelText="Test" />
-            </View>)}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
-                );
-              }}>
-              <MaterialCommunityIcons name="camera-retake-outline" size={30} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.cameraCapture} onPress={() => takePicture()} />
-            <TouchableOpacity
-              style={styles.button}>
-              <MaterialCommunityIcons name="magnify" size={30} color="white" />
-            </TouchableOpacity>
-          </View>
-        </Camera>)}
+        isFocused && (
+          <Camera style={styles.camera} ref={(ref) => { camera = ref }} type={type} >
+            {isLoading ? (null) : (
+              <View style={{ flex: 0.5, flexDirection: 'column', top: 20, justifyContent: 'space-around' }}>
+                <NutritionLabel labelText="42% Vitamin A" />
+                <NutritionLabel labelText="16% Potassium" />
+                <NutritionLabel labelText="12% Calcium" />
+                <NutritionLabel labelText="0.1% Iron" />
+              </View>
+            )}
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  setType(
+                    type === Camera.Constants.Type.back
+                      ? Camera.Constants.Type.front
+                      : Camera.Constants.Type.back
+                  );
+                }}>
+                <MaterialCommunityIcons name="camera-retake-outline" size={30} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cameraCapture} onPress={() => takePicture()} />
+              <TouchableOpacity
+                style={styles.button}>
+                <MaterialCommunityIcons name="magnify" size={30} colour="white" />
+              </TouchableOpacity>
+            </View>
+          </Camera>)}
     </View>
   );
 }

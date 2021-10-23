@@ -4,9 +4,11 @@ import { SIZES } from '../constants'
 
 export const NutritionLabel = (props) => {
     const [text, setText] = useState();
+    const [colour, setColor] = useState();
 
     useEffect(() => {
         setText(props.labelText)
+        setColor(props.colour)
     });
 
     return (
@@ -22,10 +24,10 @@ const styles = StyleSheet.create({
     view: {
         width: SIZES.width - 80,
         margin: 10,
-        height: '40%',
-        width: '20%',
+        height: '35%',
+        width: '35%',
         borderRadius: 20,
-        backgroundColor: "azure",
+        backgroundColor: 'bisque',
         alignItems: "center",
         justifyContent: "center",
         opacity: 0.8
