@@ -74,7 +74,7 @@ NutriSnap promises the novel feature to identify food nutrition through the mobi
   ```
   
 * Or scan the following QR code
-<img src="https://github.com/kelly-luo/NutriSnap/blob/main/assets/expo-published-qr.png" width="200">
+<img src="https://github.com/kelly-luo/NutriSnap/blob/main/resources/expo-published-qr.png" width="200">
 
 ### Installation
 
